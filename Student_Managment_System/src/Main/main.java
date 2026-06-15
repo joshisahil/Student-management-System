@@ -2,13 +2,18 @@ package Main;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.sql.Date;
 
+import model.Attendance;
+import model.Fee;
 import model.Course;
 import model.Student;
 import model.Enrollment;
 import service.EnrollmentService;
 import service.CourseService;
 import service.StudentService;
+import service.AttendanceService;
+import service.FeeService;
 
 public class main
 {
@@ -22,6 +27,12 @@ public class main
     
     private static EnrollmentService enrollmentService =
             new EnrollmentService();
+    
+    private static AttendanceService attendanceService =
+            new AttendanceService();
+
+    private static FeeService feeService =
+            new FeeService();
 
     public static void main(String[] args)
     {
@@ -35,7 +46,9 @@ public class main
             System.out.println("1. Student Management");
             System.out.println("2. Course Management");
             System.out.println("3. Enrollment Management");
-            System.out.println("4. Exit");
+            System.out.println("4. Attendance Management");
+            System.out.println("5. Fee Management");
+            System.out.println("6. Exit");
 
             System.out.print("Enter Choice: ");
 
@@ -57,6 +70,14 @@ public class main
                     break;
 
                 case 4:
+                    attendanceMenu();
+                    break;
+
+                case 5:
+                    feeMenu();
+                    break;
+
+                case 6:
                     System.out.println("Thank You!");
                     break;
 
@@ -64,7 +85,7 @@ public class main
                     System.out.println("Invalid Choice!");
             }
 
-        } while(choice != 4);
+        } while(choice != 6);
 
         sc.close();
     }
@@ -215,6 +236,112 @@ public class main
             }
 
         } while(choice != 5);
+    }
+    
+    // ==========================
+    // ATTENDANCE MENU
+    // ==========================
+    
+    private static void attendanceMenu()
+    {
+        int choice;
+
+        do
+        {
+            System.out.println("\n===== ATTENDANCE MANAGEMENT =====");
+
+            System.out.println("1. Mark Attendance");
+            System.out.println("2. View Attendance");
+            System.out.println("3. View All Attendance");
+            System.out.println("4. Delete Attendance");
+            System.out.println("5. Attendance Report");
+            System.out.println("6. Back");
+
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch(choice)
+            {
+                case 1:
+                    addAttendance();
+                    break;
+
+                case 2:
+                    viewAttendance();
+                    break;
+
+                case 3:
+                    viewAllAttendance();
+                    break;
+
+                case 4:
+                    deleteAttendance();
+                    break;
+
+                case 5:
+                    attendanceService
+                            .displayAttendanceReport();
+                    break;
+            }
+
+        } while(choice != 6);
+    }
+    
+    // ==========================
+    // ATTENDANCE MENU
+    // ==========================
+    
+    private static void feeMenu()
+    {
+        int choice;
+
+        do
+        {
+            System.out.println("\n===== FEE MANAGEMENT =====");
+
+            System.out.println("1. Add Fee");
+            System.out.println("2. View Fee");
+            System.out.println("3. View All Fees");
+            System.out.println("4. Update Fee");
+            System.out.println("5. Delete Fee");
+            System.out.println("6. Make Payment");
+            System.out.println("7. Fee Report");
+            System.out.println("8. Back");
+
+            choice = sc.nextInt();
+
+            switch(choice)
+            {
+                case 1:
+                    addFee();
+                    break;
+
+                case 2:
+                    viewFee();
+                    break;
+
+                case 3:
+                    viewAllFees();
+                    break;
+
+                case 4:
+                    updateFee();
+                    break;
+
+                case 5:
+                    deleteFee();
+                    break;
+
+                case 6:
+                    makePayment();
+                    break;
+
+                case 7:
+                    feeService.displayFeeReport();
+                    break;
+            }
+
+        } while(choice != 8);
     }
 
     // ==========================
@@ -497,6 +624,219 @@ private static void addEnrollment()
                         "Delete Failed!");
             }
         }
+        
+     //==========================
+     // ATTENDANCE METHODS
+     // ==========================
+        
+        private static void addAttendance()
+        {
+            System.out.print("Student ID: ");
+            int studentId = sc.nextInt();
+            sc.nextLine();
+
+            System.out.print("Date (yyyy-mm-dd): ");
+            String dateInput = sc.nextLine();
+
+            System.out.print("Status (Present/Absent): ");
+            String status = sc.nextLine();
+
+            Attendance attendance =
+                    new Attendance(
+                            studentId,
+                            Date.valueOf(dateInput),
+                            status);
+
+            if(attendanceService
+                    .addAttendance(attendance))
+            {
+                System.out.println(
+                        "Attendance Added Successfully");
+            }
+            else
+            {
+                System.out.println(
+                        "Failed");
+            }
+        }
+        
+        private static void viewAttendance()
+        {
+            System.out.print(
+                    "Attendance ID: ");
+
+            int id = sc.nextInt();
+
+            Attendance attendance =
+                    attendanceService
+                            .getAttendanceById(id);
+
+            System.out.println(attendance);
+        }
+        
+        private static void viewAllAttendance()
+        {
+            ArrayList<Attendance> list =
+                    attendanceService
+                            .getAllAttendance();
+
+            for(Attendance attendance : list)
+            {
+                System.out.println(attendance);
+            }
+        }
+        
+        private static void deleteAttendance()
+        {
+            System.out.print(
+                    "Attendance ID: ");
+
+            int id = sc.nextInt();
+
+            if(attendanceService
+                    .deleteAttendance(id))
+            {
+                System.out.println(
+                        "Deleted Successfully");
+            }
+            else
+            {
+                System.out.println(
+                        "Delete Failed");
+            }
+        }
+        
+        //==========================
+        // FEE METHODS
+        // ==========================
+        
+        private static void addFee()
+        {
+            System.out.print("Student ID: ");
+            int studentId = sc.nextInt();
+
+            System.out.print("Total Fee: ");
+            double totalFee = sc.nextDouble();
+
+            System.out.print("Paid Fee: ");
+            double paidFee = sc.nextDouble();
+
+            double remainingFee =
+                    totalFee - paidFee;
+
+            Fee fee =
+                    new Fee(
+                            studentId,
+                            totalFee,
+                            paidFee,
+                            remainingFee);
+
+            if(feeService.addFee(fee))
+            {
+                System.out.println(
+                        "Fee Added Successfully");
+            }
+            else
+            {
+                System.out.println(
+                        "Failed");
+            }
+        }
+        
+        private static void viewFee()
+        {
+            System.out.print("Fee ID: ");
+
+            int id = sc.nextInt();
+
+            Fee fee =
+                    feeService.getFeeById(id);
+
+            System.out.println(fee);
+        }
+        
+        private static void viewAllFees()
+        {
+            ArrayList<Fee> fees =
+                    feeService.getAllFees();
+
+            for(Fee fee : fees)
+            {
+                System.out.println(fee);
+            }
+        }
+        
+        private static void updateFee()
+        {
+            System.out.print("Fee ID: ");
+            int feeId = sc.nextInt();
+
+            System.out.print("Student ID: ");
+            int studentId = sc.nextInt();
+
+            System.out.print("Total Fee: ");
+            double totalFee = sc.nextDouble();
+
+            System.out.print("Paid Fee: ");
+            double paidFee = sc.nextDouble();
+
+            double remainingFee =
+                    totalFee - paidFee;
+
+            Fee fee =
+                    new Fee(
+                            feeId,
+                            studentId,
+                            totalFee,
+                            paidFee,
+                            remainingFee);
+
+            if(feeService.updateFee(fee))
+            {
+                System.out.println(
+                        "Updated Successfully");
+            }
+            else
+            {
+                System.out.println(
+                        "Update Failed");
+            }
+        }
+        
+        private static void deleteFee()
+        {
+            System.out.print("Fee ID: ");
+
+            int id = sc.nextInt();
+
+            if(feeService.deleteFee(id))
+            {
+                System.out.println(
+                        "Deleted Successfully");
+            }
+        }
+        
+        private static void makePayment()
+        {
+            System.out.print("Fee ID: ");
+            int feeId = sc.nextInt();
+
+            System.out.print("Amount: ");
+            double amount = sc.nextDouble();
+
+            if(feeService.makePayment(
+                    feeId,
+                    amount))
+            {
+                System.out.println(
+                        "Payment Successful");
+            }
+            else
+            {
+                System.out.println(
+                        "Payment Failed");
+            }
+        }       
     }
 
 
