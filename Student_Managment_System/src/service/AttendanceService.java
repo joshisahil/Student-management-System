@@ -3,50 +3,35 @@ package service;
 import java.util.ArrayList;
 
 import dao.AttendanceDAO;
+import dao.StudentDAO;
 import model.Attendance;
 
 public class AttendanceService
 {
     private AttendanceDAO attendanceDAO;
+    private StudentDAO studentDAO;
 
     public AttendanceService()
     {
         attendanceDAO = new AttendanceDAO();
+        studentDAO = new StudentDAO();
     }
 
-    // Add Attendance
-    public boolean addAttendance(Attendance attendance)
+    public boolean addAttendance(
+            Attendance attendance)
     {
-        if(attendance.getStudentId() <= 0)
-        {
-            System.out.println("Invalid Student ID.");
-            return false;
-        }
-
-        if(attendance.getAttendanceDate() == null)
-        {
-            System.out.println("Attendance Date cannot be null.");
-            return false;
-        }
-
-        String status = attendance.getStatus();
-
-        if(status == null)
-        {
-            System.out.println("Status cannot be null.");
-            return false;
-        }
-
-        if(!status.equalsIgnoreCase("Present") &&
-           !status.equalsIgnoreCase("Absent"))
+        if(studentDAO.getStudentById(
+                attendance.getStudentId()) == null)
         {
             System.out.println(
-                    "Status must be Present or Absent.");
+                    "Student does not exist.");
             return false;
         }
 
-        return attendanceDAO.addAttendance(attendance);
+        return attendanceDAO
+                .addAttendance(attendance);
     }
+
 
     // Get Attendance By ID
     public Attendance getAttendanceById(int attendanceId)

@@ -1,12 +1,10 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import dao.StudentDAO;
 
 import model.Attendance;
 import utility.DBConnection;
@@ -16,21 +14,29 @@ public class AttendanceDAO
     // Add Attendance
 	public boolean addAttendance(Attendance attendance)
 	{
-	    if(attendance.getStudentId() <= 0)
+	    String query =
+	            "INSERT INTO attendance " +
+	            "(student_id, attendance_date, status) " +
+	            "VALUES (?, ?, ?)";
+
+	    try(Connection con = DBConnection.getConnection();
+	        PreparedStatement ps =
+	                con.prepareStatement(query))
 	    {
-	        System.out.println("Invalid Student ID.");
-	        return false;
+	        ps.setInt(1, attendance.getStudentId());
+	        ps.setDate(2, attendance.getAttendanceDate());
+	        ps.setString(3, attendance.getStatus());
+
+	        return ps.executeUpdate() > 0;
+	    }
+	    catch(SQLException e)
+	    {
+	        System.out.println(
+	                "Error Adding Attendance: "
+	                + e.getMessage());
 	    }
 
-	    if(studentDAO.getStudentById(
-	            attendance.getStudentId()) == null)
-	    {
-	        System.out.println("Student does not exist.");
-	        return false;
-	    }
-
-	    AttendanceDAO attendanceDAO = null;
-		return attendanceDAO.addAttendance(attendance);
+	    return false;
 	}
 
     // Get Attendance By ID
@@ -218,10 +224,5 @@ public class AttendanceDAO
                     + e.getMessage());
         }
     }
-    private StudentDAO studentDAO;
-
-    public AttendanceDAO()
-    {
-        studentDAO = new StudentDAO();
+    
     }
-}
