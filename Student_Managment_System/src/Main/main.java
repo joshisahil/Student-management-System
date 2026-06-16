@@ -365,51 +365,79 @@ public class main
         {
             System.out.println(
                     "\n===== REPORTS =====");
+            
+            System.out.println(
+                    "1. Dashboard");
 
             System.out.println(
-                    "1. Total Students");
+                    "2. Total Students");
 
             System.out.println(
-                    "2. Total Courses");
+                    "3. Total Courses");
 
             System.out.println(
-                    "3. Students Per Course");
+                    "4. Students Per Course");
 
             System.out.println(
-                    "4. Fee Defaulters");
+                    "5. Fee Defaulters");
 
             System.out.println(
-                    "5. Attendance Percentage");
+                    "6. Attendance Percentage");
 
             System.out.println(
-                    "6. Back");
+                    "7. Enrollment Report");
+            
+            System.out.println(
+                    "8. Attendance Report");
+            
+            System.out.println(
+                    "9. Fee Report");
+            
+            System.out.println(
+                    "10. Back");
 
             choice = sc.nextInt();
 
             switch(choice)
             {
-                case 1:
-                    reportService.totalStudents();
-                    break;
+            case 1:
+                reportService.dashboardReport();
+                break;
 
-                case 2:
-                    reportService.totalCourses();
-                    break;
+            case 2:
+                reportService.totalStudents();
+                break;
 
-                case 3:
-                    reportService.studentsPerCourse();
-                    break;
+            case 3:
+                reportService.totalCourses();
+                break;
 
-                case 4:
-                    reportService.feeDefaulters();
-                    break;
+            case 4:
+                reportService.studentsPerCourse();
+                break;
 
-                case 5:
-                    reportService.attendancePercentage();
-                    break;
+            case 5:
+                reportService.feeDefaulters();
+                break;
+
+            case 6:
+                reportService.attendancePercentage();
+                break;
+
+            case 7:
+                reportService.enrollmentReport();
+                break;
+
+            case 8:
+                reportService.attendanceReport();
+                break;
+
+            case 9:
+                reportService.feeReport();
+                break;
             }
 
-        } while(choice != 6);
+        } while(choice != 10);
     }
 
     // ==========================

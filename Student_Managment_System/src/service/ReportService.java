@@ -35,4 +35,23 @@ public class ReportService
     {
         reportDAO.attendancePercentage();
     }
+    public void dashboardReport()
+    {
+        reportDAO.dashboardReport();
+    }
+
+	public void enrollmentReport() {
+		reportDAO.enrollmentReport();
+		
+	}
+
+	public void attendanceReport() {
+		reportDAO.attendanceReport();
+		
+	}
+
+	public void feeReport() {
+		reportDAO.feeReport();
+		
+	}
 }
