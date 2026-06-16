@@ -12,6 +12,7 @@ import model.Enrollment;
 import service.EnrollmentService;
 import service.CourseService;
 import service.StudentService;
+import service.AdminService;
 import service.AttendanceService;
 import service.FeeService;
 import service.ReportService;
@@ -19,6 +20,9 @@ import service.ReportService;
 public class main
 {
     private static Scanner sc = new Scanner(System.in);
+    
+    private static AdminService adminService =
+            new AdminService();
 
     private static StudentService studentService =
             new StudentService();
@@ -40,6 +44,10 @@ public class main
 
     public static void main(String[] args)
     {
+    	if(!login())
+        {
+            return;
+        }
         int choice;
 
         do
@@ -438,6 +446,51 @@ public class main
             }
 
         } while(choice != 10);
+    }
+    
+    // ==========================
+    // LOGIN METHODS
+    // ==========================
+    
+    private static boolean login()
+    {
+        int attempts = 3;
+
+        while(attempts > 0)
+        {
+        	System.out.println("\n===== ADMIN LOGIN =====");
+        	
+            System.out.print(
+                    "Username: ");
+            String username =
+                    sc.nextLine();
+
+            System.out.print(
+                    "Password: ");
+            String password =
+                    sc.nextLine();
+
+            if(adminService.login(
+                    username,
+                    password))
+            {
+                System.out.println(
+                        "Login Successful!");
+
+                return true;
+            }
+
+            attempts--;
+
+            System.out.println(
+                    "Invalid Credentials");
+
+            System.out.println(
+                    "Attempts Left: "
+                    + attempts);
+        }
+
+        return false;
     }
 
     // ==========================
