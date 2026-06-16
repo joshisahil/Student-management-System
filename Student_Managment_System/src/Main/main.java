@@ -14,6 +14,7 @@ import service.CourseService;
 import service.StudentService;
 import service.AttendanceService;
 import service.FeeService;
+import service.ReportService;
 
 public class main
 {
@@ -33,6 +34,9 @@ public class main
 
     private static FeeService feeService =
             new FeeService();
+    
+    private static ReportService reportService =
+            new ReportService();
 
     public static void main(String[] args)
     {
@@ -48,7 +52,8 @@ public class main
             System.out.println("3. Enrollment Management");
             System.out.println("4. Attendance Management");
             System.out.println("5. Fee Management");
-            System.out.println("6. Exit");
+            System.out.println("6. Reports");
+            System.out.println("7. Exit");
 
             System.out.print("Enter Choice: ");
 
@@ -76,8 +81,12 @@ public class main
                 case 5:
                     feeMenu();
                     break;
-
+                    
                 case 6:
+                	reportsMenu();
+                	break;
+
+                case 7:
                     System.out.println("Thank You!");
                     break;
 
@@ -85,7 +94,7 @@ public class main
                     System.out.println("Invalid Choice!");
             }
 
-        } while(choice != 6);
+        } while(choice != 7);
 
         sc.close();
     }
@@ -288,7 +297,7 @@ public class main
     }
     
     // ==========================
-    // ATTENDANCE MENU
+    // FEE MENU
     // ==========================
     
     private static void feeMenu()
@@ -342,6 +351,65 @@ public class main
             }
 
         } while(choice != 8);
+    }
+    
+    // ==========================
+    // REPORT MENU
+    // ==========================
+    
+    private static void reportsMenu()
+    {
+        int choice;
+
+        do
+        {
+            System.out.println(
+                    "\n===== REPORTS =====");
+
+            System.out.println(
+                    "1. Total Students");
+
+            System.out.println(
+                    "2. Total Courses");
+
+            System.out.println(
+                    "3. Students Per Course");
+
+            System.out.println(
+                    "4. Fee Defaulters");
+
+            System.out.println(
+                    "5. Attendance Percentage");
+
+            System.out.println(
+                    "6. Back");
+
+            choice = sc.nextInt();
+
+            switch(choice)
+            {
+                case 1:
+                    reportService.totalStudents();
+                    break;
+
+                case 2:
+                    reportService.totalCourses();
+                    break;
+
+                case 3:
+                    reportService.studentsPerCourse();
+                    break;
+
+                case 4:
+                    reportService.feeDefaulters();
+                    break;
+
+                case 5:
+                    reportService.attendancePercentage();
+                    break;
+            }
+
+        } while(choice != 6);
     }
 
     // ==========================
