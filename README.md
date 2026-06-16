@@ -271,4 +271,3 @@ Password: admin123
 ## Author
 
 Developed as a Java JDBC & MySQL Student Management System Project.
-This is a console based application.
