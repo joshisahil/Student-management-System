@@ -74,3 +74,18 @@ CREATE TABLE admin
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL
 );
+
+CREATE TABLE placements (
+    placement_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    student_name VARCHAR(100),
+    age INT,
+    gender VARCHAR(10),
+    email VARCHAR(100),
+    mobile VARCHAR(15),
+    address TEXT,
+    company_name VARCHAR(100),
+    job_role VARCHAR(100),
+    package_amount DOUBLE,
+    placement_date DATE
+);
