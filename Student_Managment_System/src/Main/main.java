@@ -15,6 +15,7 @@ import service.StudentService;
 import service.AdminService;
 import service.AttendanceService;
 import service.FeeService;
+import service.PlacementService;
 import service.ReportService;
 
 public class main
@@ -41,7 +42,10 @@ public class main
     
     private static ReportService reportService =
             new ReportService();
-
+    
+    private static PlacementService placementService =
+            new PlacementService();
+    
     public static void main(String[] args)
     {
     	if(!login())
@@ -62,7 +66,6 @@ public class main
             System.out.println("5. Fee Management");
             System.out.println("6. Reports");
             System.out.println("7. Exit");
-
             System.out.print("Enter Choice: ");
 
             choice = sc.nextInt();
@@ -96,6 +99,10 @@ public class main
 
                 case 7:
                     System.out.println("Thank You!");
+                    break;
+                    
+                case 8:
+                    placementMenu();
                     break;
 
                 default:
@@ -985,8 +992,77 @@ private static void addEnrollment()
                 System.out.println(
                         "Payment Failed");
             }
-        }       
-    }
+        }
+        // ==========================
+        // PLACEMENT DETAILS
+        // ==========================
+  
+        private static void addPlacement()
+        {
+            System.out.print("Student ID: ");
+            int studentId = sc.nextInt();
+            sc.nextLine();
 
+            System.out.print("Company Name: ");
+            String companyName = sc.nextLine();
+
+            System.out.print("Job Role: ");
+            String jobRole = sc.nextLine();
+
+            System.out.print("Package Amount: ");
+            double packageAmount = sc.nextDouble();
+            sc.nextLine();
+
+            boolean result =
+                    placementService
+                    .addStudentToPlacement(
+                            studentId,
+                            companyName,
+                            jobRole,
+                            packageAmount);
+
+            if(result)
+            {
+                System.out.println(
+                        "Student Placed Successfully!");
+            }
+            else
+            {
+                System.out.println(
+                        "Placement Failed!");
+            }
+        }
+        
+        private static void placementMenu()
+        {
+            int choice;
+
+            do
+            {
+                System.out.println("\n===== PLACEMENT MANAGEMENT =====");
+                System.out.println("1. Add Placement");
+                System.out.println("2. Back");
+
+                System.out.print("Enter Choice: ");
+                choice = sc.nextInt();
+                sc.nextLine();
+
+                switch(choice)
+                {
+                    case 1:
+                        addPlacement();
+                        break;
+
+                    case 2:
+                        break;
+
+                    default:
+                        System.out.println("Invalid Choice!");
+                }
+
+            } while(choice != 2);
+        }
+        
+}
 
 
