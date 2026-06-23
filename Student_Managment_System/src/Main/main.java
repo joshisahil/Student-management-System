@@ -14,6 +14,7 @@ import service.CourseService;
 import service.StudentService;
 import service.AdminService;
 import service.AttendanceService;
+import service.CompletionCertificateService;
 import service.FeeService;
 import service.PlacementService;
 import service.ReportService;
@@ -46,6 +47,9 @@ public class main
     private static PlacementService placementService =
             new PlacementService();
     
+    private static CompletionCertificateService certificateService =
+            new CompletionCertificateService();
+    
     public static void main(String[] args)
     {
     	if(!login())
@@ -65,7 +69,10 @@ public class main
             System.out.println("4. Attendance Management");
             System.out.println("5. Fee Management");
             System.out.println("6. Reports");
-            System.out.println("7. Exit");
+            System.out.println("7. Generate Certificate");
+            System.out.println("8. Placement Details");
+            System.out.println("9. Exit");
+
             System.out.print("Enter Choice: ");
 
             choice = sc.nextInt();
@@ -98,18 +105,22 @@ public class main
                 	break;
 
                 case 7:
-                    System.out.println("Thank You!");
+                    certificateMenu();
                     break;
                     
                 case 8:
                     placementMenu();
+                    break;
+                    
+                case 9:
+                	System.out.println("Thank You!");
                     break;
 
                 default:
                     System.out.println("Invalid Choice!");
             }
 
-        } while(choice != 7);
+        } while(choice != 9);
 
         sc.close();
     }
@@ -1063,6 +1074,47 @@ private static void addEnrollment()
             } while(choice != 2);
         }
         
+        private static void certificateMenu()
+        {
+            int choice;
+
+            do
+            {
+                System.out.println("\n===== CERTIFICATE MANAGEMENT =====");
+                System.out.println("1. Generate Certificate");
+                System.out.println("2. View Certificate");
+                System.out.println("3. Back");
+
+                choice = sc.nextInt();
+
+                switch(choice)
+                {
+                    case 1:
+                        System.out.print("Student ID: ");
+                        int studentId = sc.nextInt();
+
+                        System.out.print("Course ID: ");
+                        int courseId = sc.nextInt();
+
+                        certificateService.generateCertificate(studentId, courseId);
+                        break;
+
+                    case 2:
+                        System.out.print("Student ID: ");
+                        int id = sc.nextInt();
+
+                        certificateService.viewCertificate(id);
+                        break;
+                        
+                    case 3:
+                    	break;
+
+                    default:
+                        System.out.println("Invalid Choice!");
+                }
+
+            } while(choice != 3);
+        }
 }
 
 

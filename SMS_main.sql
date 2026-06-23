@@ -89,3 +89,21 @@ CREATE TABLE placements (
     package_amount DOUBLE,
     placement_date DATE
 );
+
+CREATE TABLE completion_certificate
+(
+    certificate_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    issue_date DATE NOT NULL,
+
+    FOREIGN KEY(student_id)
+        REFERENCES students(student_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY(course_id)
+        REFERENCES courses(course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
